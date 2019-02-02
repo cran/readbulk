@@ -1,4 +1,4 @@
-#' Read and combine multiple data files.
+#' Read and combine multiple data files
 #'
 #' Read and combine multiple data files. The files will be merged into one
 #' \link{data.frame}.
@@ -66,7 +66,7 @@
 #' # Merge tab separated data files and prevent
 #' # character vectors from being converted to factors
 #' raw_data <- read_bulk(directory = "raw_data",
-#'   fun=read.delim,stringsAsFactor=FALSE)
+#'   fun=read.delim,stringsAsFactors=FALSE)
 #'}
 #' @export
 read_bulk <- function(directory=".",
@@ -81,13 +81,6 @@ read_bulk <- function(directory=".",
   # (not summarized at the end)
   current_setting_warning <- options()$warn
   options(warn=1)
-
-  # Perform incremental merging, if previous data are provided
-  if (is.null(data) == FALSE) {
-    all_data <- data
-  } else {
-    all_data <- data.frame()
-  }
 
 
   # Set subdirectory variables according to the selected option
@@ -110,7 +103,8 @@ read_bulk <- function(directory=".",
   }
 
   # Read in data
-  for (subdirectory in subdirectories) {
+
+  all_data_list <- lapply(subdirectories, function(subdirectory){
 
     if (check_subdirectories & verbose) {
       message(paste("Start merging subdirectory:", subdirectory))
@@ -124,7 +118,7 @@ read_bulk <- function(directory=".",
       files <- grep(paste0(extension, "$"), files, value=TRUE)
     }
 
-    for (file in files) {
+    subdirectory_data_list <- lapply(files, function(file){
 
       if (verbose){
         message(paste("Reading", file))
@@ -136,16 +130,35 @@ read_bulk <- function(directory=".",
         ...
       )
 
-      # Add metadata
-      if(check_subdirectories) {
-        single_data$Subdirectory <- subdirectory
+      # Issue warning if read in data file has 0 rows
+      if (nrow(single_data)==0) {
+        warning("File ",file, " has 0 rows after reading it in.")
+
+      # Add metadata otherwise
+      } else {
+
+        if(check_subdirectories) {
+          single_data$Subdirectory <- subdirectory
+        }
+        single_data$File <- file
       }
-      single_data$File <- file
 
-      # Bind individual file onto global data.frame
-      all_data <- plyr::rbind.fill(all_data, single_data)
-    }
+      return(single_data)
 
+    })
+
+    # Bind data together for subdirectory
+    return(plyr::rbind.fill(subdirectory_data_list))
+
+  })
+
+
+  # Bind all data together into global data.frame
+  all_data <- plyr::rbind.fill(all_data_list)
+
+  # Perform incremental merging, if previous data were provided
+  if (is.null(data) == FALSE) {
+    all_data <- plyr::rbind.fill(data, all_data)
   }
 
   # Reset warning option

@@ -2,10 +2,10 @@
 % Please edit documentation in R/read_opensesame.R
 \name{read_opensesame}
 \alias{read_opensesame}
-\title{Read and combine raw OpenSesame data.}
+\title{Read and combine raw OpenSesame data}
 \usage{
-read_opensesame(directory = ".", subdirectories = FALSE, extension = NULL,
-  data = NULL, verbose = TRUE)
+read_opensesame(directory = ".", subdirectories = FALSE,
+  extension = NULL, data = NULL, verbose = TRUE)
 }
 \arguments{
 \item{directory}{a character string. Name of the folder where the raw data
@@ -91,4 +91,3 @@ open-source, graphical experiment builder for the social sciences.
 \link{read_bulk} for reading and combining multiple data files
 that have other file formats.
 }
-

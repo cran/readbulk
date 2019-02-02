@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_bulk.R
 \name{read_bulk}
 \alias{read_bulk}
-\title{Read and combine multiple data files.}
+\title{Read and combine multiple data files}
 \usage{
 read_bulk(directory = ".", subdirectories = FALSE, extension = NULL,
   data = NULL, verbose = TRUE, fun = utils::read.csv, ...)
@@ -76,7 +76,7 @@ raw_data <- read_bulk(directory = "raw_data",
 # Merge tab separated data files and prevent
 # character vectors from being converted to factors
 raw_data <- read_bulk(directory = "raw_data",
-  fun=read.delim,stringsAsFactor=FALSE)
+  fun=read.delim,stringsAsFactors=FALSE)
 }
 }
 \seealso{
@@ -86,4 +86,3 @@ raw_data <- read_bulk(directory = "raw_data",
 
   \link{write.table} for data export.
 }
-
