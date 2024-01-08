@@ -19,6 +19,10 @@
 #'   data files are directly included in the directory. If \code{TRUE}, it is
 #'   assumed that the raw data files are stored in folders within the directory.
 #'   Alternatively, a vector of folder names that contain the raw data.
+#' @param name_contains an optional character string. If specified, only files
+#'   whose name contains this string will be merged.
+#' @param name_filter an optional regular expression. If specified, only files
+#'   whose name matches this regular expression will be merged.
 #' @param extension an optional character string. If specified, only files
 #'   ending with the specified extension will be merged.
 #' @param data A \code{data.frame} to which the new data will be added. This is
@@ -71,6 +75,8 @@
 #' @export
 read_bulk <- function(directory=".",
   subdirectories=FALSE,
+  name_contains=NULL,
+  name_filter=NULL,
   extension=NULL,
   data=NULL,
   verbose=TRUE,
@@ -84,7 +90,7 @@ read_bulk <- function(directory=".",
 
 
   # Set subdirectory variables according to the selected option
-  if (class(subdirectories) == "logical") {
+  if (is.logical(subdirectories)) {
     check_subdirectories <- subdirectories
     if (check_subdirectories){
       subdirectories <- dir(directory)
@@ -92,7 +98,7 @@ read_bulk <- function(directory=".",
       subdirectories <- c("")
     }
 
-  } else if (class(subdirectories) == "character") {
+  } else if (is.character(subdirectories)) {
     check_subdirectories <- TRUE
 
   } else {
@@ -112,6 +118,14 @@ read_bulk <- function(directory=".",
 
     # Get files in directory
     files <- dir(paste(directory, subdirectory, sep="/"))
+
+    # In case a file name filter was specified, filter files
+    if(is.null(name_contains)==FALSE){
+      files <- grep(name_contains, files, fixed=TRUE, value=TRUE)
+    }
+    if(is.null(name_filter)==FALSE){
+      files <- grep(name_filter, files, fixed=FALSE, value=TRUE)
+    }
 
     # In case a file extension was specified, filter files
     if(is.null(extension)==FALSE){

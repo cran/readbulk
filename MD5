@@ -1,11 +1,9 @@
-e503ef98f4d3bcdeb536591c6df405ad *DESCRIPTION
+d4999a8169fb7fe7fad781a9d33ea282 *DESCRIPTION
 213689aab4e7ce2e2efeed34b39d47fc *NAMESPACE
-8c17f25d3ce24be222f1bf084c2d7f68 *NEWS.md
-1a5c77da66d40f141fa2ffc8150ce31e *R/process_labjs.R
-aae632af5e318d5ba79d283a67c6562f *R/read_bulk.R
+0b9293ca8bf96a8a8935720951039d44 *NEWS.md
+b6b1480aba6c7fb64e91b329fcbbfa3f *R/read_bulk.R
 fea637118326bf01f6d1235922db8fe2 *R/read_opensesame.R
 db9518863d723a5005a8fcac151f83d7 *README.md
 264cabca4cfc2bb8ef6cd96489bc001d *inst/CITATION
-403d5d193578fb330b8c3990aca2d810 *man/process_labjs.Rd
-3ecd590a63288466655c09a56909eb15 *man/read_bulk.Rd
+b6bd829fc9ac9a9eea913d6eff477e87 *man/read_bulk.Rd
 4bb0ebd38749e760bbd1baeee6b0a2ec *man/read_opensesame.Rd
